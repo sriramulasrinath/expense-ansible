@@ -25,7 +25,7 @@
   - name: check DB connection
     community.mysql.mysql_info:
       login_user: root 
-      login_password: Srinath@1
+      login_password: "Srinath@1"
       login_host: {{login_host}}
       filter: version # for checking purpose installed or not 
     ignore errors: yes 
