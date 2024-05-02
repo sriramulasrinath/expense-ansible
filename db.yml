@@ -26,7 +26,7 @@
     community.mysql.mysql_info:
       login_user: root 
       login_password: ExpenseApp@1
-      login_host: {{login_host:}}
+      login_host: {{login_host}}
       filter: version # for checking purpose installed or not 
     ignore errors: yes 
     register: mysql_connection_output 
