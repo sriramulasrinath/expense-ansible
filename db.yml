@@ -22,13 +22,13 @@
       - cryptography
       executable: pip3.9
 
-  - name: check DB connection
+  - name: Check DB connection
     community.mysql.mysql_info:
       login_user: root 
       login_password: Srinath@1
       login_host: "{{ login_host }}"
       filter: version # for checking purpose installed or not 
-    ignore errors: yes 
+    ignore_errors: yes 
     register: mysql_connection_output 
 
   - name: print output 
