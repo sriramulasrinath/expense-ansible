@@ -1,6 +1,12 @@
 - name: configure backend server 
   become: yes
   hosts: backend
+  vars:
+    login_host: 
+  vars_prompt:
+  - name: mysql_root_password
+    prompt: please enter MySQL root password 
+    private: no
   tasks:
     - name: disable default node js
       ansible.builtin.command: dnf module disable nodejs -y
@@ -45,8 +51,24 @@
     
     - name: copy backend service 
       ansible.builtin.copy:
-      src: /srv/myfiles/foo.conf
-      dest: /etc/foo.conf
+        src: backend.service 
+        dest: /etc/systemd/system/backend.service
+
+    - name: install python mysql dependencies 
+      ansible.builtin.pip:
+        name:
+        - PyMysql 
+        - cryptography 
+        executable: pip3.9 
+    
+    - name: import the data into mysql 
+      community.mysql.mysql_info:
+        login_user: root 
+        login_password: "{{ mysql_root_password }}"
+        login_host: "{{ login_host }}
+      
+
+
 
 
 
