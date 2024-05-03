@@ -10,8 +10,43 @@
 
     - name: install nodejs 
       ansible.builtin.dnf: 
-        name: nodejs
+        name: "{{ item }}"
         state: installed 
+      loop: 
+        - nodejs
+        - mysql 
+    
+    - name: create  the user 
+      ansible.builtin.user:
+        name: expense 
+        user: root 
+
+    - name: create app directory
+      ansible.builtin.file:
+        path: /app
+        user: root 
+        state: directory
+    
+    - name: download the code 
+      ansible.builtin.get_url: 
+        url: https://expense-builds.s3.us-east-1.amazonaws.com/expense-backend-v2.zip
+        dest : /tmp/backend.zip 
+        
+    - name: unzip the code 
+      ansible.builtin.unarchive:
+        src: /tmp/backend.zip
+        dest: /app
+        remote_src: yes
+
+    - name: install npm dependencies
+      ansible.builtin.command: npm install 
+      args: 
+        chdir: /app 
+    
+    - name: copy backend service 
+      ansible.builtin.copy:
+      src: /srv/myfiles/foo.conf
+      dest: /etc/foo.conf
 
 
 
