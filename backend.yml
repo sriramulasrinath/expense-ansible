@@ -25,12 +25,10 @@
     - name: create  the user 
       ansible.builtin.user:
         name: expense 
-        user: root 
 
     - name: create app directory
       ansible.builtin.file:
-        path: /app
-        user: root 
+        path: /app 
         state: directory
     
     - name: download the code 
