@@ -2,11 +2,11 @@
   become: yes
   hosts: backend
   vars:
-    login_host: 
+    login_host: 172.31.24.23
   vars_prompt:
   - name: mysql_root_password
     prompt: please enter MySQL root password 
-    private: no
+    private: yes
   tasks:
     - name: disable default node js
       ansible.builtin.command: dnf module disable nodejs -y
@@ -65,7 +65,20 @@
       community.mysql.mysql_info:
         login_user: root 
         login_password: "{{ mysql_root_password }}"
-        login_host: "{{ login_host }}
+        login_host: "{{ login_host }}"
+        target: /app/schema/backend.sql
+        state: import  
+        name: all
+    
+    - name: daemon reload
+      ansible.builtin.systemd_service:
+        daemon-reload: true 
+    
+    - name: start and enable backend service 
+      ansible.builtin.service:
+        name: backend 
+        state: started 
+        enable: yes 
       
 
 
