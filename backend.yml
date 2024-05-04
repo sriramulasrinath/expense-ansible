@@ -19,8 +19,8 @@
         name: "{{ item }}"
         state: installed 
       loop: 
-        - nodejs
-        - mysql 
+      - nodejs
+      - mysql 
     
     - name: create  the user 
       ansible.builtin.user:
